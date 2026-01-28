@@ -75,13 +75,16 @@ from geometry_msgs.msg import Twist
 
 def move_in_circle():
     # Initialize the ROS node
+    # This initializes the node with a name. This name can be anything you want.
     rospy.init_node('circle_turtle', anonymous=True)
 
-    # Publish to the topic: /turtle1/cmd_vel
+    # Here we define the publisher that will publish to the topic: /turtle1/cmd_vel
+    # In ROS, the topics are created dynamically. What it means is when there is a publisher that is publishing to a topic and when there is subscriber listening to it, the topic is dyanmiccaly created.
+    # Twist here tells the type of msg the topic will contain.
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     rate = rospy.Rate(10)  # 10 Hz
 
-    # Define the Twist message
+    # Define the Twist message. Twist is a standard msg type in ros. You can read about Twist here: http://docs.ros.org/en/noetic/api/geometry_msgs/html/msg/Twist.html
     vel_msg = Twist()
     vel_msg.linear.x = 1.0  # Linear speed
     vel_msg.angular.z = 1.0  # Angular velocity
@@ -89,7 +92,7 @@ def move_in_circle():
     rospy.loginfo("Turtle is moving in a circle...")
 
     while not rospy.is_shutdown():
-        # Publish the velocity
+        # Publish the velocity using the publisher we defined.
         pub.publish(vel_msg)
         rate.sleep()
 
